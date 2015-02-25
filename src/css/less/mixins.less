@@ -1,0 +1,77 @@
+/* MIXINS.less */
+.clearfix {
+    &:before {
+        content: "";
+        display: table;
+    }
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .ie7 & {
+        zoom: 1;
+    }
+}
+
+.ib {
+    display: inline-block;
+    vertical-align: top;
+
+    .ie7 & {
+        display: inline;
+        zoom: 1;
+    }
+}
+
+.border-radius (@radius: 5px) {
+	-webkit-border-radius: @radius;
+	-moz-border-radius:    @radius;
+	border-radius:         @radius;
+
+	-moz-background-clip:    padding;
+	-webkit-background-clip: padding-box;
+	background-clip:         padding-box;
+}
+
+.box-shadow (@string) {
+	-webkit-box-shadow: @string;
+	-moz-box-shadow:    @string;
+	box-shadow:         @string;
+}
+
+.transition (@transition) {
+	transition:      @transition;
+}
+
+.opacity(@opacity: 1) {
+	@ieOpacity: (@opacity * 100);
+	filter: ~"alpha(opacity=@{ieOpacity})";
+	-ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{ieOpacity})";
+	opacity: @opacity;
+}
+
+.placeholder(@color: @input-color-placeholder) {
+	.placeholder {
+		color: @color;
+	}
+	&:-moz-placeholder {
+		color: @color;
+	}
+	&::-moz-placeholder {
+		color: @color;
+		opacity: 1;
+	}
+	&:-ms-input-placeholder {
+		color: @color;
+	}
+	&::-webkit-input-placeholder {
+		color: @color;
+	}
+}
+
+.nofilter {
+	.ie9 & {
+		filter: none;
+	}
+}
