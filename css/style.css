@@ -242,16 +242,9 @@ table {
   display: table;
   clear: both;
 }
-.ie7 .clearfix {
-  zoom: 1;
-}
 .ib {
   display: inline-block;
   vertical-align: top;
-}
-.ie7 .ib {
-  display: inline;
-  zoom: 1;
 }
 .ie9 .nofilter {
   filter: none;
@@ -263,7 +256,7 @@ html {
   font-size: 100.01%;
 }
 body {
-  font: 14px/1.41;
+  font: 14px/1.41 Arial, Helvetica, sans-serif;
   width: 100%;
   height: 100%;
   background: #fff;
@@ -284,6 +277,30 @@ body {
   position: relative;
   height: 170px;
 }
+/*** Text.less ***/
+p {
+  font-size: 18px;
+  line-height: 22px;
+  color: #000;
+  margin-bottom: 15px;
+}
+.text ol,
+.text ul {
+  margin-left: 15px;
+}
+.text ol {
+  list-style-position: inside;
+}
+.text table {
+  width: 100%;
+  border: 1px solid #c3c3c3;
+}
+.text td,
+.text th {
+  vertical-align: top;
+  border: 1px solid #c3c3c3;
+  padding: 3px;
+}
 /*** Buttons.less ***/
 /*** Header.less ***/
 .header {
@@ -301,6 +318,10 @@ body {
   display: block;
   left: 30px;
   top: 22px;
+}
+.logo__name {
+  position: absolute;
+  left: -9999px;
 }
 /*** Footer.less ***/
 .footer {
@@ -355,12 +376,9 @@ body {
 }
 .popup__container {
   -webkit-box-shadow: 0 0px 56px 0px #165170;
-  -moz-box-shadow: 0 0px 56px 0px #165170;
   box-shadow: 0 0px 56px 0px #165170;
   -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
   border-radius: 20px;
-  -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   width: 470px;
