@@ -233,13 +233,12 @@ table {
 }
 /*** Font.less ***/
 /* MIXINS.less */
-.clearfix:before {
+.clearfix:before,
+.clearfix:after {
   content: "";
   display: table;
 }
 .clearfix:after {
-  content: "";
-  display: table;
   clear: both;
 }
 .ib {

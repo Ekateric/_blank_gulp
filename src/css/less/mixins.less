@@ -1,12 +1,10 @@
 /* MIXINS.less */
 .clearfix {
-    &:before {
+    &:before, &:after {
         content: "";
         display: table;
     }
     &:after {
-        content: "";
-        display: table;
         clear: both;
     }
 }
