@@ -13,9 +13,7 @@ var gulp = require('gulp'),
 
 var src = {
 	css: 'src/css/style.less',
-	js: ['src/js/vendor/jquery-1.10.2.min.js',
-		'src/js/vendor/modernizr-2.8.3.custom.js',
-		'src/js/main.js'],
+	js: ['src/js/main.js'],
 	img: 'src/img/**/*'
 };
 
