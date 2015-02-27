@@ -301,6 +301,20 @@ p {
   padding: 3px;
 }
 /*** Buttons.less ***/
+.btn {
+  display: inline-block;
+  vertical-align: top;
+  text-decoration: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+}
+.btn_disabled {
+  cursor: default;
+  filter: alpha(opacity=50);
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
 /*** Header.less ***/
 .header {
   height: 200px;
@@ -321,6 +335,15 @@ p {
 .logo__name {
   position: absolute;
   left: -9999px;
+}
+.navigation__list {
+  list-style-type: none;
+  display: block;
+  text-align: center;
+}
+.navigation__item {
+  display: inline-block;
+  vertical-align: top;
 }
 /*** Footer.less ***/
 .footer {
