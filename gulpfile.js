@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	clean = require('gulp-clean'),
 	concat = require('gulp-concat'),
-	cache = require('gulp-cache'),
+	newer = require('gulp-newer'),
 	watch = require('gulp-watch'),
 	livereload = require('gulp-livereload');
 
@@ -21,7 +21,8 @@ var src = {
 gulp.task('css', function () {
 	return gulp.src(src.css)
 		.pipe(less())
-		.pipe(gulp.dest('css'));
+		.pipe(gulp.dest('css'))
+		.pipe(livereload());
 });
 
 //Minify Css
@@ -35,8 +36,9 @@ gulp.task('minCss', function () {
 //Concat js
 gulp.task('js', function() {
 	return gulp.src(src.js)
+		.pipe(newer('js/main.js'))
 		.pipe(concat('main.js'))
-		.pipe(gulp.dest('js'));
+		.pipe(gulp.dest('js'))
 });
 
 //Minify Js
@@ -50,7 +52,12 @@ gulp.task('minJs', function() {
 //Compress images
 gulp.task('img', function() {
 	return gulp.src(src.img)
-		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+		.pipe(newer('img'))
+		.pipe(imagemin({
+			optimizationLevel: 3,
+			progressive: true,
+			interlaced: true
+		}))
 		.pipe(gulp.dest('img'));
 });
 
@@ -77,6 +84,7 @@ gulp.task('clean', function() {
 
 //Watch
 gulp.task('watch', function() {
+	livereload.listen();
 	gulp.watch('src/css/**/*.less', ['css']);
 	gulp.watch('src/js/**/*.js', ['js']);
 	gulp.watch('src/img/**/*', ['img']);
