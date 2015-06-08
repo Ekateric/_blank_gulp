@@ -49,3 +49,7 @@ readme.txt
 # Gulp #
 gulp.txt
 node_modules/*
+
+img/*
+css/*
+js/*

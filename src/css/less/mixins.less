@@ -14,22 +14,6 @@
     vertical-align: top;
 }
 
-.border-radius (@radius: 5px) {
-	-webkit-border-radius: @radius;
-	border-radius:         @radius;
-	-webkit-background-clip: padding-box;
-	background-clip:         padding-box;
-}
-
-.box-shadow (@string) {
-	-webkit-box-shadow: @string;
-	box-shadow:         @string;
-}
-
-.transition (@transition) {
-	transition:      @transition;
-}
-
 .opacity(@opacity: 1) {
 	@ieOpacity: (@opacity * 100);
 	filter: ~"alpha(opacity=@{ieOpacity})";

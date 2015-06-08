@@ -2,14 +2,14 @@ var gulp = require('gulp'),
 	less = require('gulp-less'),
 	minifycss = require('gulp-minify-css'),
 	uglify = require('gulp-uglify'),
-	imagemin = require('gulp-imagemin'),
+	imageop = require('gulp-image-optimization'),
 	sprite = require('gulp-sprite-generator'),
 	rename = require('gulp-rename'),
 	clean = require('gulp-clean'),
 	concat = require('gulp-concat'),
 	newer = require('gulp-newer'),
 	watch = require('gulp-watch'),
-	livereload = require('gulp-livereload');
+	autoprefixer = require('gulp-autoprefixer');
 
 var src = {
 	css: 'src/css/style.less',
@@ -21,8 +21,11 @@ var src = {
 gulp.task('css', function () {
 	return gulp.src(src.css)
 		.pipe(less())
-		.pipe(gulp.dest('css'))
-		.pipe(livereload());
+		.pipe(autoprefixer({
+			browsers: ['> 5%'],
+			cascade: false
+		}))
+		.pipe(gulp.dest('css'));
 });
 
 //Minify Css
@@ -41,7 +44,7 @@ gulp.task('js', function() {
 		.pipe(gulp.dest('js'))
 });
 
-//Minify Js
+//Minify & uglify Js
 gulp.task('minJs', function() {
 	return gulp.src('js/main.js')
 		.pipe(rename({suffix: '.min'}))
@@ -50,15 +53,14 @@ gulp.task('minJs', function() {
 });
 
 //Compress images
-gulp.task('img', function() {
-	return gulp.src(src.img)
+gulp.task('img', function(cb) {
+	gulp.src(src.img)
 		.pipe(newer('img'))
-		.pipe(imagemin({
-			optimizationLevel: 3,
+		.pipe(imageop({
+			optimizationLevel: 5,
 			progressive: true,
 			interlaced: true
-		}))
-		.pipe(gulp.dest('img'));
+		})).pipe(gulp.dest('img')).on('end', cb).on('error', cb);
 });
 
 //Generate sprite
@@ -84,10 +86,8 @@ gulp.task('clean', function() {
 
 //Watch
 gulp.task('watch', function() {
-	livereload.listen();
 	gulp.watch('src/css/**/*.less', ['css']);
 	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('src/img/**/*', ['img']);
 	gulp.watch('src/css/sprite.less', ['sprite']);
 });
 
