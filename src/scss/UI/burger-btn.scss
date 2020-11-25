@@ -1,0 +1,44 @@
+.burger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 7;
+  width: 44px;
+  height: 36px;
+  border: 0 none;
+  margin: 0;
+  padding: 10px 12px;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  
+  &__line {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 3px;
+    background-color: $basic-black;
+    flex-shrink: 0;
+    transform-origin: 1px;
+    transition:
+        transform 0.2s linear 0s,
+        opacity 0.1s linear 0s,
+        background-color 0.2s ease 0s;
+  }
+  
+  &_opened &__line {
+    background-color: $basic-gray;
+    
+    &:first-child {
+      transform: rotate(45deg);
+    }
+    
+    &:nth-child(2) {
+      opacity: 0;
+    }
+    
+    &:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+  }
+}

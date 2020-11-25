@@ -1,0 +1,57 @@
+.btn {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 11px 9px;
+  border: none;
+  font-family: $basic-font;
+  font-size: 12px;
+  line-height: 1;
+  color: $basic-text-color;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color .2s ease 0s,
+      color .2s ease 0s,
+      border-color .2s ease 0s;
+  
+  &:not(:disabled):hover {
+    text-decoration: none;
+  }
+  
+  @include from-lg {
+    padding: 12px 22px 10px;
+  }
+  
+  &_bordered {
+    background: transparent;
+    border: 2px solid $basic-black;
+  }
+  
+  &_red {
+    color: $basic-white;
+    background-color: $basic-red;
+    border: 2px solid $basic-red;
+  }
+  
+  &_big {
+    padding: 17px 12px;
+  
+    @include from-lg {
+      padding: 20px 15px;
+    }
+  }
+  
+  &[disabled],
+  &_disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}

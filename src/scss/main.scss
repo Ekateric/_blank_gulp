@@ -1,0 +1,86 @@
+@import 'node_modules/normalize-scss/sass/normalize/_import-now';
+
+@import './assets/variables';
+@import './assets/mixins';
+@import './assets/keyframes';
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1.47;
+  font-family: $basic-font;
+  color: $basic-text-color;
+  background-color: $basic-bg-color;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -moz-osx-font-smoothing: grayscale;
+  
+  @include from-lg {
+    font-size: 16px;
+    line-height: 1.69;
+  }
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  padding: 0 $container-padding;
+  max-width: $container-width;
+  margin: 0 auto;
+}
+
+.page {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+}
+
+.page-main {
+  min-width: 0;
+  
+  & > * {
+    min-width: 0;
+  }
+}
+
+@import 'UI/visually-hidden';
+@import 'UI/overflow-hidden';
+@import 'UI/btn';
+@import 'UI/burger-btn';
+@import 'UI/input-text';
+@import 'UI/input-label';
+@import 'UI/textarea';
+@import 'UI/checkbox';
+@import 'UI/select';
+@import 'UI/form-loading';
+@import 'UI/form-error';
+@import 'UI/popup';
+@import 'UI/slider';
+
+@import 'components/common/header';
+@import 'components/common/nav';
+@import 'components/common/footer';

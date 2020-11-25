@@ -1,0 +1,15 @@
+<nav class="nav" role="navigation">
+  <ul class="nav__list" role="menu">
+    {% for menuItem in menu %}
+      {% if activeMenuItem and activeMenuItem == menuItem.title %}
+        <li class="nav__item nav__item_active">
+          <a href="{{menuItem.link}}" class="nav__link" role="menuitem">{{menuItem.title}}</a>
+        </li>
+      {% else %}
+        <li class="nav__item">
+          <a href="{{menuItem.link}}" class="nav__link" role="menuitem">{{menuItem.title}}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>

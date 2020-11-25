@@ -1,0 +1,58 @@
+.textarea {
+  position: relative;
+  box-sizing: border-box;
+  background-color: $basic-white;
+  width: 100%;
+  max-width: 100%;
+  height: 100px;
+  margin: 0;
+  padding: 10px 15px;
+  border: 2px solid $basic-border-color;
+  outline: none;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1;
+  color: $basic-black;
+  resize: none;
+  border-radius: 3px;
+  transition: background-color 0.2s ease 0s,
+    border-color 0.2s ease 0s;
+  
+  @include from-lg {
+    height: 185px;
+    padding: 14px 15px;
+    font-size: 18px;
+  }
+  
+  &::placeholder {
+  
+  }
+  
+  &:focus {
+    border-color: $basic-white;
+  }
+  
+  &_white {
+    background-color: $basic-white;
+    border-color: $basic-white;
+    
+    &::placeholder {
+      opacity: 1;
+      color: $basic-black;
+    }
+    
+    &:focus {
+      border-color: $basic-black;
+    }
+  }
+  
+  &_error {
+    border-color: $basic-red;
+  }
+  
+  &_disabled,
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+}

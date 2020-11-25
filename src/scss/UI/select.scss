@@ -1,0 +1,39 @@
+.select {
+  display: block;
+  box-sizing: border-box;
+  background-color: $basic-white;
+  width: 100%;
+  max-width: 100%;
+  height: 51px;
+  margin: 0;
+  padding: 10px 15px;
+  border: 2px solid $basic-border-color;
+  outline: none;
+  font-size: 16px;
+  line-height: 1;
+  font-family: inherit;
+  color: $basic-black;
+  border-radius: 3px;
+  transition: background-color 0.2s ease 0s,
+    border-color 0.2s ease 0s;
+  
+  @include from-lg {
+    height: 55px;
+    padding: 14px 15px;
+    font-size: 18px;
+  }
+  
+  &:focus {
+    border-color: $basic-white;
+  }
+  
+  &_error {
+    border-color: $basic-red;
+  }
+  
+  &_disabled,
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+}
