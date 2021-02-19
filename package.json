@@ -1,7 +1,7 @@
 {
   "name": "blank_gulp",
   "version": "0.0.1",
-  "description": "Frontend project",
+  "description": "Start Frontend Project with Gulp & twig",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,11 +9,10 @@
   "author": "Ekaterina Kireeva",
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-latest": "^6.24.1",
-    "babelify": "^8.0.0",
+    "@babel/core": "^7.12.17",
+    "@babel/plugin-transform-runtime": "^7.12.17",
+    "@babel/preset-env": "^7.12.17",
+    "babelify": "^10.0.0",
     "browser-sync": "^2.26.12",
     "browserify": "^17.0.0",
     "fs": "0.0.1-security",

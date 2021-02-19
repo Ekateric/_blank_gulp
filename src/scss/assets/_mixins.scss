@@ -14,7 +14,7 @@ xxlarge: from 1201
 }
 
 @mixin md-only {
-  @media all and (min-width: #{$screen-sm-min}) and (max-width: #{$screen-md-min}) {
+  @media all and (min-width: #{$screen-sm-min + 1}) and (max-width: #{$screen-md-min}) {
     @content;
   }
 }
@@ -26,7 +26,7 @@ xxlarge: from 1201
 }
 
 @mixin from-md {
-  @media all and (min-width: #{$screen-sm-min}) {
+  @media all and (min-width: #{$screen-sm-min + 1}) {
     @content;
   }
 }

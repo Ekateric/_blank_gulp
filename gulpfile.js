@@ -59,7 +59,7 @@ const JSON_PATHS = {
 
 const htmlOptions = {
 	indent_size: 2,
-	indent_char: " ",
+	indent_char: ' ',
 	end_with_newline: true,
 	max_preserve_newlines: 1
 }
@@ -92,8 +92,12 @@ function js() {
 		debug: true
 	})
 		.transform('babelify', {
-			presets: ['babel-preset-env'],
-			plugins: ['babel-plugin-transform-runtime']
+			presets: [
+				['@babel/preset-env', {
+					'useBuiltIns': false,
+				}],
+			],
+			plugins: ['@babel/plugin-transform-runtime']
 		})
 	
 	return b.bundle()
