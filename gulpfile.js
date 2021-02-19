@@ -40,7 +40,8 @@ const SRC_PATHS = {
 	js: `${BASIC_PATHS.src}/js/`,
 	svgSprite: `${BASIC_PATHS.src}/img/svg-sprite-icons/*.*`,
 	font: `${BASIC_PATHS.src}/font/**/*`,
-	files: `${BASIC_PATHS.src}/files/**/*`
+	files: `${BASIC_PATHS.src}/files/**/*`,
+	rootFiles: `${BASIC_PATHS.src}/root/**/*`
 }
 
 const PUBLIC_PATHS = {
@@ -187,6 +188,10 @@ function copyFiles() {
 		.pipe(dest(PUBLIC_PATHS.files))
 }
 
+function copyRootFiles() {
+	return src([SRC_PATHS.rootFiles])
+		.pipe(dest(PUBLIC_PATHS.html))
+}
 
 function watchFiles() {
 	watch(SRC_PATHS.html, series(html, browserSyncReload))
@@ -196,6 +201,7 @@ function watchFiles() {
 	watch(SRC_PATHS.img, series(img, browserSyncReload))
 	watch(SRC_PATHS.font, series(copyFonts, browserSyncReload))
 	watch(SRC_PATHS.files, series(copyFiles, browserSyncReload))
+	watch(SRC_PATHS.rootFiles, series(copyRootFiles, browserSyncReload))
 }
 
 function browserSyncInit(doneCallback) {
@@ -215,7 +221,7 @@ function browserSyncReload(doneCallback) {
 	doneCallback()
 }
 
-const build = series(clear, parallel(html, js, css, svg, img, copyFonts, copyFiles))
+const build = series(clear, parallel(html, js, css, svg, img, copyFonts, copyFiles, copyRootFiles))
 const watching = parallel(build, watchFiles, browserSyncInit)
 const publish = series(parallel(minCss, minJs))
 
