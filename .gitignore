@@ -11,6 +11,7 @@
 
 # production
 /public
+/backend
 
 # misc
 .DS_Store

@@ -24,10 +24,12 @@ const fs = require('fs')
 const twig = require('gulp-twig')
 const data = require('gulp-data')
 const htmlBeautify = require('gulp-html-beautify')
+const replace = require('gulp-replace')
 const browserSync = require('browser-sync').create()
 
 const BASIC_PATHS = {
 	public: './public',
+	backend: './backend',
 	src: './src',
 	maps: './maps'
 }
@@ -53,6 +55,15 @@ const PUBLIC_PATHS = {
 	files: `${BASIC_PATHS.public}/files/`
 }
 
+const BACKEND_PATHS = {
+	html: `${BASIC_PATHS.backend}/`,
+	img: `${BASIC_PATHS.backend}/img/`,
+	css: `${BASIC_PATHS.backend}/css/`,
+	js: `${BASIC_PATHS.backend}/js/`,
+	font: `${BASIC_PATHS.backend}/font/`,
+	files: `${BASIC_PATHS.backend}/files/`
+}
+
 const JSON_PATHS = {
 	menu: `${SRC_PATHS.html}/data/menu.json`
 }
@@ -64,14 +75,26 @@ const htmlOptions = {
 	max_preserve_newlines: 1
 }
 
-function clear() {
-	return src(`${BASIC_PATHS.public}/*`, {
+//TASKS
+
+//CLEAR
+function clear(path) {
+	return src(path, {
 		read: false
 	})
 		.pipe(clean())
 }
 
-function html() {
+function clearPublic() {
+	return clear(`${BASIC_PATHS.public}/*`)
+}
+
+function clearBackend() {
+	return clear(`${BASIC_PATHS.backend}/*`)
+}
+
+//HTML
+function html(destPath) {
 	const source = `${SRC_PATHS.html}pages/**/*.html`
 	
 	return src([source])
@@ -82,9 +105,18 @@ function html() {
 		}))
 		.pipe(twig())
 		.pipe(htmlBeautify(htmlOptions))
-		.pipe(dest(PUBLIC_PATHS.html))
+		.pipe(dest(destPath))
 }
 
+function htmlPublic() {
+	return html(PUBLIC_PATHS.html)
+}
+
+function htmlBackend(){
+	return html(BACKEND_PATHS.html)
+}
+
+//JS
 function js() {
 	const source = `${SRC_PATHS.js}main.js`
 	const b = browserify({
@@ -112,7 +144,7 @@ function js() {
 		.pipe(browserSync.stream())
 }
 
-function minJs() {
+function minJsPublic() {
 	const source = `${PUBLIC_PATHS.js}bundle.js`
 	
 	return src(source)
@@ -123,6 +155,20 @@ function minJs() {
 		.pipe(dest(PUBLIC_PATHS.js))
 }
 
+function minJsBackend() {
+	const source = `${PUBLIC_PATHS.js}bundle.js`
+	
+	return src(source)
+		.pipe(replace( 'img/', '/local/templates/whitelineRacketa/img/'))
+		.pipe(rename({
+			extname: '.min.js'
+		}))
+		.pipe(uglify())
+		.pipe(dest(BACKEND_PATHS.js))
+}
+
+
+//CSS
 function css() {
 	const source = `${SRC_PATHS.scss}main.scss`
 	
@@ -139,7 +185,7 @@ function css() {
 		.pipe(browserSync.stream())
 }
 
-function minCss() {
+function minCssPublic() {
 	const source = `${PUBLIC_PATHS.css}main.css`
 	
 	return src(source)
@@ -150,6 +196,20 @@ function minCss() {
 		.pipe(dest(PUBLIC_PATHS.css))
 }
 
+function minCssBackend() {
+	const source = `${PUBLIC_PATHS.css}main.css`
+	
+	return src(source)
+		.pipe(replace( '../', ''))
+		.pipe(rename({
+			extname: '.min.css'
+		}))
+		.pipe(cssnano())
+		.pipe(dest(BACKEND_PATHS.css))
+}
+
+
+//IMAGES
 function svg() {
 	return src(SRC_PATHS.svgSprite)
 		.pipe(
@@ -182,6 +242,8 @@ function img() {
 		.pipe(dest(PUBLIC_PATHS.img))
 }
 
+
+//COPIES
 function copyFonts() {
 	return src([SRC_PATHS.font])
 		.pipe(dest(PUBLIC_PATHS.font))
@@ -197,8 +259,22 @@ function copyRootFiles() {
 		.pipe(dest(PUBLIC_PATHS.html))
 }
 
+function copyFilesBackend() {
+	return src([SRC_PATHS.font])
+		.pipe(dest(BACKEND_PATHS.font))
+		
+		.pipe(src([SRC_PATHS.files]))
+		.pipe(dest(BACKEND_PATHS.files))
+		
+		.pipe(src([SRC_PATHS.rootFiles]))
+		.pipe(dest(BACKEND_PATHS.html))
+		
+		.pipe(src([`${PUBLIC_PATHS.img}**/*.*`]))
+		.pipe(dest(BACKEND_PATHS.img))
+}
+
 function watchFiles() {
-	watch(SRC_PATHS.html, series(html, browserSyncReload))
+	watch(SRC_PATHS.html, series(htmlPublic, browserSyncReload))
 	watch(SRC_PATHS.scss, series(css, browserSyncReload))
 	watch(SRC_PATHS.js, series(js, browserSyncReload))
 	watch(SRC_PATHS.svgSprite, series(svg, browserSyncReload))
@@ -225,10 +301,12 @@ function browserSyncReload(doneCallback) {
 	doneCallback()
 }
 
-const build = series(clear, parallel(html, js, css, svg, img, copyFonts, copyFiles, copyRootFiles))
+const build = series(clearPublic, parallel(htmlPublic, js, css, svg, img, copyFonts, copyFiles, copyRootFiles))
 const watching = parallel(build, watchFiles, browserSyncInit)
-const publish = series(parallel(minCss, minJs))
+const publish = series(parallel(minCssPublic, minJsPublic))
+const backend = series(clearBackend, parallel(htmlBackend, minJsBackend, minCssBackend, copyFilesBackend))
 
 exports.build = build
 exports.watch = watching
 exports.publish = publish
+exports.backend = backend
