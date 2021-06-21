@@ -6,7 +6,7 @@ export default class Popup {
     this._id = popupId
     this._element = this._createPopupElement(popupContent)
     this._contentElement = this._element.querySelector('.js-popup-content')
-    this._closeElement = this._element.querySelector('.js-close-popup')
+    this._closeElements = Array.from(this._element.querySelectorAll('.js-close-popup'))
     this._bodyElement = document.body
     
     this._callback = callback
@@ -17,11 +17,11 @@ export default class Popup {
     this.remove = this.remove.bind(this)
     this.hide = this.hide.bind(this)
     this.show = this.show.bind(this)
-    
+  
     this.render()
-    
+  
     this._setHandlers()
-    
+  
     this.show()
   }
   
@@ -43,7 +43,7 @@ export default class Popup {
     if (this._element) {
       this._element.classList.add(HIDDEN_CLASS)
     }
-    
+  
     if (this._bodyElement) {
       this._bodyElement.classList.remove(BODY_POPUP_CLASS)
     }
@@ -52,9 +52,9 @@ export default class Popup {
   destroy () {
     this._element.remove()
     this._contentElement = null
-    this._closeElement = null
+    this._closeElements = null
     this._element = null
-    
+  
     document.removeEventListener('mousedown', this._documentMousedownHandler)
     document.removeEventListener(`keydown`, this._escKeyDownHandler)
   }
@@ -67,7 +67,7 @@ export default class Popup {
   }
   
   _documentMousedownHandler (evt) {
-    if (this._contentElement.contains(evt.target)) {
+    if (this._contentElement.contains(evt.target) || evt.target === this._element) {
       return
     }
     this.remove()
@@ -75,17 +75,19 @@ export default class Popup {
   
   _escKeyDownHandler (evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`
-    
+  
     if (isEscKey) {
       this.remove()
     }
   }
   
   _setCloseBtnClickHandler () {
-    this._closeElement.addEventListener(`click`, (evt) => {
-      evt.preventDefault()
-      
-      this.remove()
+    this._closeElements.forEach((closeElement) => {
+      closeElement.addEventListener(`click`, (evt) => {
+        evt.preventDefault()
+    
+        this.remove()
+      })
     })
   }
   
@@ -101,7 +103,7 @@ export default class Popup {
     this._setCloseBtnClickHandler()
     this._setDocumentMouseDownHandler()
     this._setEscKeydownHandler()
-    
+  
     if (typeof this._callback === 'function') {
       this._callback(this._contentElement, this)
     }
